@@ -1,18 +1,21 @@
 import {View, Text} from 'react-native';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
+export const OverlayContext = React.createContext(false);
 const OverlayProvider = ({children}) => {
-  const [overlayVisible, setOverlayVisible] = useState(true);
+  const [overlayVisible, setOverlayVisible] = useState(false);
   const toggleOverlay = () => {
     setOverlayVisible(!overlayVisible);
   };
 
   return (
-    <View>
-      <View style={overlayVisible ? overlayStyle : defaultStyle} />
-      {children}
-    </View>
+    <OverlayContext.Provider value={{setOverlayVisible}}>
+      <View>
+        <View style={overlayVisible ? overlayStyle : defaultStyle} />
+        {children}
+      </View>
+    </OverlayContext.Provider>
   );
 };
 
